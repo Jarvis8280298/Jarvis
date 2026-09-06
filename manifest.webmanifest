@@ -1,11 +1,10 @@
 {
-  "name": "JARVIS 4.0",
+  "name": "JARVIS 4.1",
   "short_name": "JARVIS",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#05090d",
   "theme_color": "#05090d",
-  "description": "AI-ready personal JARVIS dashboard",
   "icons": [
     {
       "src": "icon.svg",

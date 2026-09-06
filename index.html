@@ -1,122 +1,30 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#05090d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="JARVIS">
-<link rel="manifest" href="manifest.webmanifest">
-<title>JARVIS 4.0</title>
-<style>
-:root{--bg:#05090d;--panel:#09141c;--line:#153845;--text:#e8fbff;--muted:#7fa7b1;--a:#53e6ff;--g:#67f3b0;--bad:#ff9b9b}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
-body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);background:radial-gradient(circle at 50% -12%,#123542 0,#05090d 50%)}
-.app{max-width:760px;margin:auto;padding:14px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 16px}
-.brand{font-size:26px;font-weight:900;letter-spacing:5px}.pill{font-size:11px;border:1px solid #245c50;color:var(--g);border-radius:99px;padding:7px 9px}
-.card{background:#09141de8;border:1px solid var(--line);border-radius:22px;padding:15px;margin-bottom:14px;box-shadow:0 15px 45px #0007}
-.hero{text-align:center}.orb{height:170px;width:170px;border-radius:50%;margin:10px auto 14px;border:2px solid var(--a);display:grid;place-items:center;box-shadow:0 0 25px #53e6ff55,inset 0 0 40px #53e6ff2e;animation:pulse 2.8s infinite}
-@keyframes pulse{50%{transform:scale(1.035);box-shadow:0 0 42px #53e6ff77,inset 0 0 55px #53e6ff44}}
-.orb b{letter-spacing:4px}.sub{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-button{appearance:none;border:1px solid #2b5d6c;background:#0b2631;color:var(--text);border-radius:14px;padding:12px;font-weight:800;font-size:14px}
-button:active{transform:scale(.98)}.primary{background:#08778d}.danger{color:var(--bad)}
-.chat{height:320px;overflow:auto;background:#040a0e;border-radius:14px;padding:10px}.msg{padding:10px;margin:7px 0;border-radius:12px;line-height:1.45}.j{background:#0c2935}.u{background:#153226;text-align:right}
-.row{display:flex;gap:8px;margin-top:9px}.row input{flex:1;min-width:0;background:#061017;border:1px solid #285263;border-radius:13px;color:white;padding:12px;font-size:15px}
-.item{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #14313a}.item:last-child{border:0}.grow{flex:1}.muted{font-size:12px;color:var(--muted)}.list{max-height:180px;overflow:auto}.done{text-decoration:line-through;color:#64828a}
-.badge{font-size:10px;padding:4px 7px;border-radius:99px;border:1px solid #2d5865;color:#9fc0c8}
-footer{text-align:center;color:#56737c;font-size:10px;padding:4px 0 14px}
-</style>
-</head>
-<body>
-<div class="app">
-<header class="top"><div class="brand">JARVIS <small>4.0</small></div><div class="pill" id="netPill">● ONLINE</div></header>
-<section class="card hero">
-  <div class="orb"><b>JARVIS</b></div>
-  <div class="sub" id="status">AI core awaiting connection.</div>
-  <div class="grid">
-    <button class="primary" onclick="listen()">🎙️ Talk</button>
-    <button onclick="speak(lastJarvis||'JARVIS is online.')">🔊 Speak</button>
-    <button onclick="webSearch()">🌐 Search</button>
-    <button onclick="showSetup()">⚙️ AI Setup</button>
-  </div>
-</section>
-<section class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center"><h3>AI Conversation</h3><span class="badge" id="aiBadge">LOCAL MODE</span></div>
-  <div class="chat" id="chat"></div>
-  <div class="row"><input id="cmd" placeholder="Ask JARVIS anything..." autocomplete="off"><button class="primary" onclick="send()">Send</button></div>
-</section>
-<section class="card"><h3>Tasks</h3><div class="list" id="tasks"></div><div class="row"><input id="task" placeholder="New task"><button onclick="addTask()">Add</button></div></section>
-<section class="card"><h3>Memory</h3><div class="list" id="notes"></div><div class="row"><input id="note" placeholder="Remember this..."><button onclick="addNote()">Save</button></div></section>
-<section class="card">
-  <h3>System</h3>
-  <div class="item">🕒 <span class="grow">Time</span><b id="time"></b></div>
-  <div class="item">📡 <span class="grow">Internet</span><b id="conn"></b></div>
-  <div class="item">🧠 <span class="grow">AI endpoint</span><b id="endpointState">Not set</b></div>
-  <div class="item">💾 <span class="grow">Local memories</span><b id="memoryCount">0</b></div>
-  <button class="danger" onclick="resetAll()">Reset local data</button>
-</section>
-<footer>JARVIS 4.0 · AI-ready PWA · API keys stay on the server, never in this page.</footer>
-</div>
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no'><meta name='theme-color' content='#05090d'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'><meta name='apple-mobile-web-app-title' content='JARVIS'><link rel='manifest' href='manifest.webmanifest'><title>JARVIS 4.1</title><style>
+:root{--bg:#05090d;--panel:#09141c;--line:#153845;--text:#e8fbff;--muted:#7fa7b1;--a:#53e6ff;--g:#67f3b0}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);background:radial-gradient(circle at 50% -12%,#123542 0,#05090d 50%)}.app{max-width:760px;margin:auto;padding:14px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 16px}.brand{font-size:26px;font-weight:900;letter-spacing:5px}.pill{font-size:11px;border:1px solid #245c50;color:var(--g);border-radius:99px;padding:7px 9px}.card{background:#09141de8;border:1px solid var(--line);border-radius:22px;padding:15px;margin-bottom:14px}.hero{text-align:center}.orb{height:170px;width:170px;border-radius:50%;margin:10px auto 14px;border:2px solid var(--a);display:grid;place-items:center;box-shadow:0 0 25px #53e6ff55,inset 0 0 40px #53e6ff2e;animation:pulse 2.8s infinite}@keyframes pulse{50%{transform:scale(1.035);box-shadow:0 0 42px #53e6ff77,inset 0 0 55px #53e6ff44}}.orb b{letter-spacing:4px}.sub{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}button{appearance:none;border:1px solid #2b5d6c;background:#0b2631;color:var(--text);border-radius:14px;padding:12px;font-weight:800;font-size:14px}.primary{background:#08778d}.chat{height:280px;overflow:auto;background:#040a0e;border-radius:14px;padding:10px}.msg{padding:10px;margin:7px 0;border-radius:12px;line-height:1.45}.j{background:#0c2935}.u{background:#153226;text-align:right}.row{display:flex;gap:8px;margin-top:9px}.row input{flex:1;min-width:0;background:#061017;border:1px solid #285263;border-radius:13px;color:white;padding:12px;font-size:15px}.item{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #14313a}.grow{flex:1}.muted{font-size:12px;color:var(--muted)}.list{max-height:180px;overflow:auto}.done{text-decoration:line-through;color:#64828a}footer{text-align:center;color:#56737c;font-size:10px;padding:4px 0 14px}
+</style></head><body><div class='app'><header class='top'><div class='brand'>JARVIS <small>4.1</small></div><div class='pill'>● EASY MODE</div></header>
+<section class='card hero'><div class='orb'><b>JARVIS</b></div><div class='sub' id='status'>Ready. No API setup required.</div><div class='grid'><button class='primary' onclick='listen()'>🎙️ Talk</button><button onclick='speak(lastJarvis||"JARVIS is online.")'>🔊 Speak</button><button onclick='askAI()'>🧠 Ask AI</button><button onclick='webSearch()'>🌐 Search</button></div></section>
+<section class='card'><h3>Command Center</h3><div class='chat' id='chat'></div><div class='row'><input id='cmd' placeholder='Ask something or give a command...'><button class='primary' onclick='send()'>Send</button></div></section>
+<section class='card'><h3>Tasks</h3><div class='list' id='tasks'></div><div class='row'><input id='task' placeholder='New task'><button onclick='addTask()'>Add</button></div></section>
+<section class='card'><h3>Memory</h3><div class='list' id='notes'></div><div class='row'><input id='note' placeholder='Remember this...'><button onclick='addNote()'>Save</button></div></section>
+<footer>JARVIS 4.1 Easy Mode · No API key · No Cloudflare required.</footer></div>
 <script>
-const $=x=>document.getElementById(x);
-let d=JSON.parse(localStorage.getItem('jarvis4')||'{"tasks":[],"notes":[],"endpoint":""}');
-let lastJarvis='';
-function save(){localStorage.setItem('jarvis4',JSON.stringify(d));render()}
+const $=x=>document.getElementById(x);let d=JSON.parse(localStorage.getItem('jarvis41')||'{"tasks":[],"notes":[]}');let lastJarvis='';
+function save(){localStorage.setItem('jarvis41',JSON.stringify(d));render()}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function render(){
- $('tasks').innerHTML=d.tasks.length?d.tasks.map((t,i)=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggle(${i})"><span class="grow ${t.done?'done':''}">${esc(t.text)}</span><button onclick="delTask(${i})">×</button></div>`).join(''):'<div class="muted">No tasks.</div>';
- $('notes').innerHTML=d.notes.length?d.notes.map((n,i)=>`<div class="item"><span class="grow">${esc(n)}</span><button onclick="delNote(${i})">×</button></div>`).join(''):'<div class="muted">No memories.</div>';
- $('memoryCount').textContent=d.notes.length;
- $('endpointState').textContent=d.endpoint?'Connected':'Not set';
- $('aiBadge').textContent=d.endpoint?'AI CONNECTED':'LOCAL MODE';
-}
+function render(){$('tasks').innerHTML=d.tasks.length?d.tasks.map((t,i)=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggle(${i})"><span class="grow ${t.done?'done':''}">${esc(t.text)}</span><button onclick="delTask(${i})">×</button></div>`).join(''):'<div class="muted">No tasks.</div>';$('notes').innerHTML=d.notes.length?d.notes.map((n,i)=>`<div class="item"><span class="grow">${esc(n)}</span><button onclick="delNote(${i})">×</button></div>`).join(''):'<div class="muted">No memories.</div>'}
 function msg(w,t,c){$('chat').innerHTML+=`<div class="msg ${c}"><b>${w}:</b> ${esc(t)}</div>`;$('chat').scrollTop=$('chat').scrollHeight}
-function speak(t){if('speechSynthesis' in window){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t))}}
-function reply(t,voice=true){lastJarvis=t;msg('JARVIS',t,'j');$('status').textContent=t;if(voice)speak(t)}
+function speak(t){if('speechSynthesis'in window){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t))}}
+function reply(t){lastJarvis=t;msg('JARVIS',t,'j');$('status').textContent=t;speak(t)}
 function addTask(){let x=$('task').value.trim();if(!x)return;d.tasks.push({text:x,done:false});$('task').value='';save();reply('Task added.')}
-function toggle(i){d.tasks[i].done=!d.tasks[i].done;save()}
-function delTask(i){d.tasks.splice(i,1);save()}
-function addNote(){let x=$('note').value.trim();if(!x)return;d.notes.unshift(x);$('note').value='';save();reply('Saved to memory.')}
-function delNote(i){d.notes.splice(i,1);save()}
-async function send(){
- let x=$('cmd').value.trim(); if(!x)return; $('cmd').value=''; msg('YOU',x,'u');
- if(handleLocal(x)) return;
- if(!d.endpoint){reply('My AI backend is not connected yet. Tap AI Setup and add your secure backend URL.');return}
- $('status').textContent='Thinking...';
- try{
-   const r=await fetch(d.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:x,memories:d.notes.slice(0,20),tasks:d.tasks.slice(0,20)})});
-   const data=await r.json();
-   if(!r.ok) throw new Error(data.error||'Request failed');
-   reply(data.reply||'No response returned.');
- }catch(e){reply('AI connection error: '+e.message,false)}
-}
-function handleLocal(x){
- let l=x.toLowerCase();
- if(l==='help'||l.includes('what can you do')){reply('I can manage local tasks and memory, use voice, search the web, and connect to a secure AI backend for full conversations.');return true}
- if(l.includes('time')){reply('It is '+new Date().toLocaleTimeString());return true}
- if(l.startsWith('add task ')){d.tasks.push({text:x.slice(9),done:false});save();reply('Task added.');return true}
- if(l.startsWith('remember ')){d.notes.unshift(x.slice(9));save();reply('I remembered that.');return true}
- if(l.includes('list tasks')){reply(d.tasks.length?d.tasks.map((t,i)=>`${i+1}. ${t.text}${t.done?' done':''}`).join('; '):'No tasks.');return true}
- return false
-}
-function listen(){
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){reply('Voice recognition is unavailable in this browser.');return}
- const r=new SR(); r.lang='en-US'; $('status').textContent='Listening...';
- r.onresult=e=>{$('cmd').value=e.results[0][0].transcript;send()};
- r.onerror=()=>reply('I could not hear that.'); r.start()
-}
+function toggle(i){d.tasks[i].done=!d.tasks[i].done;save()}function delTask(i){d.tasks.splice(i,1);save()}
+function addNote(){let x=$('note').value.trim();if(!x)return;d.notes.unshift(x);$('note').value='';save();reply('Saved to memory.')}function delNote(i){d.notes.splice(i,1);save()}
+function send(){let x=$('cmd').value.trim();if(!x)return;$('cmd').value='';msg('YOU',x,'u');let l=x.toLowerCase();if(l.includes('time'))return reply('It is '+new Date().toLocaleTimeString());if(l.startsWith('add task ')){d.tasks.push({text:x.slice(9),done:false});save();return reply('Task added.')}if(l.startsWith('remember ')){d.notes.unshift(x.slice(9));save();return reply('I remembered that.')}if(l.includes('list tasks'))return reply(d.tasks.length?d.tasks.map((t,i)=>`${i+1}. ${t.text}${t.done?' done':''}`).join('; '):'No tasks.');$('cmd').value=x;askAI();}
+async function askAI(){let q=$('cmd').value.trim();if(!q)q=prompt('What do you want to ask AI?')||'';if(!q)return;const context=`You are JARVIS, my personal assistant. Be concise, practical, and helpful.
+
+My saved notes: ${JSON.stringify(d.notes)}
+My tasks: ${JSON.stringify(d.tasks)}
+
+My question: ${q}`;try{await navigator.clipboard.writeText(context);reply('I copied your question and JARVIS context. Opening ChatGPT now—paste it there.');}catch(e){reply('Opening ChatGPT. If needed, copy your question manually.');}setTimeout(()=>window.open('https://chatgpt.com/','_blank'),500)}
 function webSearch(){let q=prompt('Search for:');if(q)window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank')}
-function showSetup(){
- let v=prompt('Paste your secure JARVIS backend URL. Do NOT paste an API key here.',d.endpoint||'');
- if(v!==null){d.endpoint=v.trim();save();reply(d.endpoint?'AI endpoint saved.':'AI endpoint removed.')}
-}
-function resetAll(){if(confirm('Delete JARVIS local tasks, memories, and endpoint?')){d={tasks:[],notes:[],endpoint:''};save();reply('Local data reset.')}}
-$('cmd').onkeydown=e=>{if(e.key==='Enter')send()};
-setInterval(()=>{$('time').textContent=new Date().toLocaleTimeString();$('conn').textContent=navigator.onLine?'Online':'Offline';$('netPill').textContent=navigator.onLine?'● ONLINE':'● OFFLINE'},1000);
-msg('JARVIS','JARVIS 4.0 online. Connect the secure AI backend to unlock full AI conversation.','j');render();
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-</script>
-</body></html>
+function listen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return reply('Voice recognition is unavailable in this browser.');const r=new SR();r.lang='en-US';$('status').textContent='Listening...';r.onresult=e=>{$('cmd').value=e.results[0][0].transcript;send()};r.onerror=()=>reply('I could not hear that.');r.start()}
+$('cmd').onkeydown=e=>{if(e.key==='Enter')send()};msg('JARVIS','JARVIS 4.1 Easy Mode online. No Cloudflare or API key needed.','j');render();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
