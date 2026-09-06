@@ -1,11 +1,11 @@
 {
-  "name": "JARVIS 4.2",
+  "name": "JARVIS 4.3",
   "short_name": "JARVIS",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#05090d",
-  "theme_color": "#05090d",
-  "description": "JARVIS 4.2 Easy Mode",
+  "background_color": "#02070b",
+  "theme_color": "#02070b",
+  "description": "JARVIS 4.3 movie-inspired HUD",
   "icons": [
     {
       "src": "icon.svg",

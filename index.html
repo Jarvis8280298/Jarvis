@@ -3,82 +3,168 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#05090d">
+<meta name="theme-color" content="#02070b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="JARVIS">
 <link rel="manifest" href="manifest.webmanifest">
-<title>JARVIS 4.2</title>
+<title>JARVIS 4.3</title>
 <style>
-:root{--bg:#05090d;--panel:#09141c;--line:#153845;--text:#e8fbff;--muted:#7fa7b1;--a:#53e6ff;--g:#67f3b0}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
-body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);background:radial-gradient(circle at 50% -12%,#123542 0,#05090d 50%)}
-.app{max-width:760px;margin:auto;padding:14px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 16px}
-.brand{font-size:26px;font-weight:900;letter-spacing:5px}.pill{font-size:11px;border:1px solid #245c50;color:var(--g);border-radius:99px;padding:7px 9px}
-.card{background:#09141de8;border:1px solid var(--line);border-radius:22px;padding:15px;margin-bottom:14px;box-shadow:0 15px 45px #0007}
-.hero{text-align:center}.orb{height:170px;width:170px;border-radius:50%;margin:10px auto 14px;border:2px solid var(--a);display:grid;place-items:center;box-shadow:0 0 25px #53e6ff55,inset 0 0 40px #53e6ff2e;animation:pulse 2.8s infinite}
-@keyframes pulse{50%{transform:scale(1.035);box-shadow:0 0 42px #53e6ff77,inset 0 0 55px #53e6ff44}}
-.orb b{letter-spacing:4px}.sub{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-button{appearance:none;border:1px solid #2b5d6c;background:#0b2631;color:var(--text);border-radius:14px;padding:12px;font-weight:800;font-size:14px}
-button:active{transform:scale(.98)}.primary{background:#08778d}
-.chat{height:280px;overflow:auto;background:#040a0e;border-radius:14px;padding:10px}.msg{padding:10px;margin:7px 0;border-radius:12px;line-height:1.45}.j{background:#0c2935}.u{background:#153226;text-align:right}
-.row{display:flex;gap:8px;margin-top:9px}.row input{flex:1;min-width:0;background:#061017;border:1px solid #285263;border-radius:13px;color:white;padding:12px;font-size:15px}
-.item{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #14313a}.item:last-child{border:0}.grow{flex:1}.muted{font-size:12px;color:var(--muted)}.list{max-height:180px;overflow:auto}.done{text-decoration:line-through;color:#64828a}
-footer{text-align:center;color:#56737c;font-size:10px;padding:4px 0 14px}
+:root{
+  --bg:#02070b; --panel:#061018; --panel2:#081923; --cyan:#63ecff; --cyan2:#21bcd4;
+  --text:#e9fdff; --muted:#79a6b3; --line:#173c49; --green:#6ef2bd; --amber:#ffb65f; --red:#ff6d79;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#02070b;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
+body{
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);
+  background:
+    radial-gradient(circle at 50% 9%,rgba(24,112,134,.24),transparent 32%),
+    linear-gradient(180deg,#02070b,#03090e 55%,#010406);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:linear-gradient(rgba(99,236,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(99,236,255,.04) 1px,transparent 1px);
+  background-size:28px 28px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+.app{max-width:780px;margin:auto;padding:15px 14px 24px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}
+.brand{letter-spacing:8px;font-weight:900;font-size:27px;text-shadow:0 0 18px rgba(99,236,255,.35)}
+.ver{font-size:12px;letter-spacing:2px;color:var(--muted);margin-left:8px}
+.status-pill{display:flex;gap:7px;align-items:center;border:1px solid #1f6f61;color:var(--green);border-radius:999px;padding:8px 10px;font-size:11px;letter-spacing:1.5px;font-weight:800;background:#06130f}
+.dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 13px var(--green)}
+
+.hud{
+  position:relative;min-height:430px;border:1px solid var(--line);border-radius:28px;
+  background:linear-gradient(180deg,rgba(7,25,35,.88),rgba(3,10,15,.96));
+  overflow:hidden;box-shadow:inset 0 0 60px rgba(33,188,212,.06),0 20px 60px rgba(0,0,0,.45);
+}
+.hud:after{
+  content:"";position:absolute;left:7%;right:7%;bottom:14px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan2),transparent);opacity:.45
+}
+.corner{position:absolute;width:42px;height:42px;border-color:var(--cyan2);opacity:.55}
+.c1{top:16px;left:16px;border-top:2px solid;border-left:2px solid}
+.c2{top:16px;right:16px;border-top:2px solid;border-right:2px solid}
+.c3{bottom:16px;left:16px;border-bottom:2px solid;border-left:2px solid}
+.c4{bottom:16px;right:16px;border-bottom:2px solid;border-right:2px solid}
+
+.core-wrap{position:relative;width:260px;height:260px;margin:26px auto 8px}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(99,236,255,.45)}
+.r1{animation:spin 14s linear infinite;border-style:dashed}
+.r2{inset:22px;border-width:2px;box-shadow:0 0 22px rgba(99,236,255,.22),inset 0 0 35px rgba(99,236,255,.08);animation:spin2 10s linear infinite}
+.r3{inset:55px;border:3px solid var(--cyan);box-shadow:0 0 25px rgba(99,236,255,.55),inset 0 0 25px rgba(99,236,255,.15)}
+.r4{inset:89px;border:1px solid rgba(99,236,255,.6);animation:pulse 2.4s ease-in-out infinite}
+.arc{position:absolute;inset:8px;border-radius:50%;border-top:5px solid var(--amber);border-right:5px solid transparent;border-left:5px solid transparent;border-bottom:5px solid transparent;transform:rotate(-28deg);opacity:.72;animation:spin 8s linear infinite}
+.core-text{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.core-text b{display:block;font-size:27px;letter-spacing:8px}
+.core-text span{display:block;margin-top:7px;color:var(--muted);font-size:10px;letter-spacing:2.5px}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes spin2{to{transform:rotate(-360deg)}}@keyframes pulse{50%{transform:scale(1.05);opacity:.55}}
+
+.telemetry{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 14px}
+.tele{border-top:1px solid #17404c;padding:10px 0 0;color:var(--muted);font-size:10px;letter-spacing:1.2px}
+.tele b{display:block;color:var(--text);font-size:12px;margin-top:4px}
+.wave{display:flex;gap:3px;align-items:end;height:24px;margin-top:5px}
+.wave i{display:block;width:3px;background:var(--cyan);border-radius:2px;animation:wave 1.2s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.15s}.wave i:nth-child(3){animation-delay:.3s}.wave i:nth-child(4){animation-delay:.45s}.wave i:nth-child(5){animation-delay:.6s}
+@keyframes wave{0%,100%{height:5px;opacity:.5}50%{height:22px;opacity:1}}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px 18px}
+button{
+  appearance:none;border:1px solid #285c69;background:linear-gradient(180deg,#0a2632,#071922);
+  color:var(--text);border-radius:14px;padding:13px 10px;font-weight:850;font-size:14px;
+  box-shadow:inset 0 0 18px rgba(99,236,255,.03)
+}
+button:active{transform:scale(.985)}
+button.primary{background:linear-gradient(180deg,#0a98b1,#08788e);border-color:#23cbe5}
+button.amber{border-color:#885d2b;color:#ffd7a5}
+
+.panel{margin-top:14px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(7,19,27,.95),rgba(3,9,13,.97));padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.panel h3{margin:0 0 12px;font-size:19px;letter-spacing:.5px}
+.chat{height:270px;overflow:auto;background:#02070a;border:1px solid #0d2731;border-radius:15px;padding:10px}
+.msg{padding:11px 12px;margin:7px 0;border-radius:12px;line-height:1.45;font-size:14px}
+.msg.j{background:#0a2834;border-left:2px solid var(--cyan)}
+.msg.u{background:#12251e;border-right:2px solid var(--green);text-align:right}
+.row{display:flex;gap:8px;margin-top:10px}
+.row input{flex:1;min-width:0;background:#041016;border:1px solid #285565;color:white;border-radius:13px;padding:13px 12px;font-size:15px}
+.note{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.4}
+.list{max-height:190px;overflow:auto}
+.item{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #14313a}
+.item:last-child{border:0}.grow{flex:1}.muted{font-size:12px;color:var(--muted)}.done{text-decoration:line-through;color:#607d86}
+.footer{text-align:center;color:#4b717c;font-size:9px;letter-spacing:1px;padding:12px 0 4px}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">JARVIS <small>4.2</small></div><div class="pill">● EASY MODE</div></header>
+  <header class="top">
+    <div><span class="brand">JARVIS</span><span class="ver">4.3</span></div>
+    <div class="status-pill"><span class="dot"></span>ONLINE</div>
+  </header>
 
-<section class="card hero">
-  <div class="orb"><b>JARVIS</b></div>
-  <div class="sub" id="status">JARVIS 4.2 online.</div>
-  <div class="grid">
-    <button class="primary" onclick="listen()">🎙️ Talk</button>
-    <button onclick="speak(lastJarvis||'At your service.')">🔊 JARVIS Voice</button>
-    <button onclick="askAI()">🧠 Ask AI</button>
-    <button onclick="webSearch()">🌐 Search</button>
-  </div>
-</section>
+  <section class="hud">
+    <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+    <div class="core-wrap">
+      <div class="ring r1"></div><div class="ring r2"></div><div class="arc"></div><div class="ring r3"></div><div class="ring r4"></div>
+      <div class="core-text"><div><b>JARVIS</b><span>PERSONAL AI INTERFACE</span></div></div>
+    </div>
+    <div class="telemetry">
+      <div class="tele">SYSTEM STATUS<b id="status">All systems nominal.</b></div>
+      <div class="tele">VOICE CHANNEL
+        <div class="wave"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="tele">LOCAL MEMORY<b id="memoryCount">0 ENTRIES</b></div>
+      <div class="tele">TASK QUEUE<b id="taskCount">0 ACTIVE</b></div>
+    </div>
+    <div class="actions">
+      <button class="primary" onclick="talk()">🎙️ TALK</button>
+      <button onclick="speak(lastJarvis||'At your service.')">🔊 JARVIS VOICE</button>
+      <button onclick="askAI()">🧠 ASK AI</button>
+      <button class="amber" onclick="webSearch()">🌐 WEB SEARCH</button>
+    </div>
+  </section>
 
-<section class="card">
-  <h3>Command Center</h3>
-  <div class="chat" id="chat"></div>
-  <div class="row"><input id="cmd" placeholder="Ask something or give a command..." autocomplete="off"><button class="primary" onclick="send()">Send</button></div>
-</section>
+  <section class="panel">
+    <h3>COMMAND CENTER</h3>
+    <div class="chat" id="chat"></div>
+    <div class="row"><input id="cmd" placeholder="Enter command..." autocomplete="off" inputmode="text"><button class="primary" onclick="send()">SEND</button></div>
+    <div class="note">On iPhone, TALK opens the keyboard. Tap the microphone on the iPhone keyboard to use Apple Dictation, then press SEND.</div>
+  </section>
 
-<section class="card">
-  <h3>Tasks</h3><div class="list" id="tasks"></div>
-  <div class="row"><input id="task" placeholder="New task"><button onclick="addTask()">Add</button></div>
-</section>
+  <section class="panel">
+    <h3>MISSION TASKS</h3>
+    <div class="list" id="tasks"></div>
+    <div class="row"><input id="task" placeholder="New task"><button onclick="addTask()">ADD</button></div>
+  </section>
 
-<section class="card">
-  <h3>Memory</h3><div class="list" id="notes"></div>
-  <div class="row"><input id="note" placeholder="Remember this..."><button onclick="addNote()">Save</button></div>
-</section>
+  <section class="panel">
+    <h3>MEMORY BANK</h3>
+    <div class="list" id="notes"></div>
+    <div class="row"><input id="note" placeholder="Remember this..."><button onclick="addNote()">SAVE</button></div>
+  </section>
 
-<footer>JARVIS 4.2 · Easy Mode · British-style system voice · No API key required</footer>
+  <div class="footer">STARK-INSPIRED HUD • SYSTEM VOICE • EASY MODE • NO API KEY REQUIRED</div>
 </div>
 
 <script>
 const $=x=>document.getElementById(x);
-let d=JSON.parse(localStorage.getItem('jarvis42')||localStorage.getItem('jarvis41')||'{"tasks":[],"notes":[]}');
+let d=JSON.parse(localStorage.getItem('jarvis43')||localStorage.getItem('jarvis42')||localStorage.getItem('jarvis41')||'{"tasks":[],"notes":[]}');
 let lastJarvis='';
 
-function save(){localStorage.setItem('jarvis42',JSON.stringify(d));render()}
+function save(){localStorage.setItem('jarvis43',JSON.stringify(d));render()}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function render(){
- $('tasks').innerHTML=d.tasks.length?d.tasks.map((t,i)=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggle(${i})"><span class="grow ${t.done?'done':''}">${esc(t.text)}</span><button onclick="delTask(${i})">×</button></div>`).join(''):'<div class="muted">No tasks.</div>';
- $('notes').innerHTML=d.notes.length?d.notes.map((n,i)=>`<div class="item"><span class="grow">${esc(n)}</span><button onclick="delNote(${i})">×</button></div>`).join(''):'<div class="muted">No memories.</div>';
+ $('tasks').innerHTML=d.tasks.length?d.tasks.map((t,i)=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggle(${i})"><span class="grow ${t.done?'done':''}">${esc(t.text)}</span><button onclick="delTask(${i})">×</button></div>`).join(''):'<div class="muted">No active tasks.</div>';
+ $('notes').innerHTML=d.notes.length?d.notes.map((n,i)=>`<div class="item"><span class="grow">${esc(n)}</span><button onclick="delNote(${i})">×</button></div>`).join(''):'<div class="muted">Memory bank empty.</div>';
+ $('memoryCount').textContent=d.notes.length+' ENTRIES';
+ $('taskCount').textContent=d.tasks.filter(t=>!t.done).length+' ACTIVE';
 }
 function msg(w,t,c){$('chat').innerHTML+=`<div class="msg ${c}"><b>${w}:</b> ${esc(t)}</div>`;$('chat').scrollTop=$('chat').scrollHeight}
 
 function getJarvisVoice(){
   const voices=speechSynthesis.getVoices();
   return voices.find(v=>/Daniel/i.test(v.name))
-      || voices.find(v=>/^en-GB/i.test(v.lang)&&/male|daniel|arthur|oliver/i.test(v.name))
+      || voices.find(v=>/^en-GB/i.test(v.lang)&&/Arthur|Oliver|Male|Daniel/i.test(v.name))
       || voices.find(v=>/^en-GB/i.test(v.lang))
       || voices.find(v=>/^en/i.test(v.lang))
       || voices[0];
@@ -87,60 +173,59 @@ function speak(t){
   if(!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(t);
-  const v=getJarvisVoice(); if(v) u.voice=v;
-  u.lang=(v&&v.lang)||'en-GB';
-  u.rate=.88; u.pitch=.82; u.volume=1;
+  const v=getJarvisVoice(); if(v)u.voice=v;
+  u.lang=(v&&v.lang)||'en-GB'; u.rate=.88; u.pitch=.82; u.volume=1;
   speechSynthesis.speak(u);
 }
 if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>getJarvisVoice();
 
 function reply(t){lastJarvis=t;msg('JARVIS',t,'j');$('status').textContent=t;speak(t)}
+
+function talk(){
+  const input=$('cmd');
+  input.focus();
+  $('status').textContent='Apple Dictation ready.';
+  msg('JARVIS','Tap the microphone on your iPhone keyboard, speak your command, then press SEND.','j');
+}
+
+function send(){
+ let x=$('cmd').value.trim(); if(!x)return; $('cmd').value=''; msg('YOU',x,'u');
+ let l=x.toLowerCase();
+ if(l.includes('time')) return reply('It is '+new Date().toLocaleTimeString());
+ if(l.includes('date')) return reply('Today is '+new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}));
+ if(l.startsWith('add task ')){d.tasks.push({text:x.slice(9),done:false});save();return reply('Task added.')}
+ if(l.startsWith('remember ')){d.notes.unshift(x.slice(9));save();return reply('Stored in memory.')}
+ if(l.includes('list tasks')) return reply(d.tasks.length?d.tasks.map((t,i)=>`${i+1}. ${t.text}${t.done?' completed':''}`).join('; '):'No tasks are currently stored.');
+ $('cmd').value=x; askAI();
+}
 function addTask(){let x=$('task').value.trim();if(!x)return;d.tasks.push({text:x,done:false});$('task').value='';save();reply('Task added.')}
 function toggle(i){d.tasks[i].done=!d.tasks[i].done;save()}
 function delTask(i){d.tasks.splice(i,1);save()}
-function addNote(){let x=$('note').value.trim();if(!x)return;d.notes.unshift(x);$('note').value='';save();reply('Saved to memory.')}
+function addNote(){let x=$('note').value.trim();if(!x)return;d.notes.unshift(x);$('note').value='';save();reply('Stored in memory.')}
 function delNote(i){d.notes.splice(i,1);save()}
-
-function send(){
- let x=$('cmd').value.trim();if(!x)return;$('cmd').value='';msg('YOU',x,'u');
- let l=x.toLowerCase();
- if(l.includes('time')) return reply('It is '+new Date().toLocaleTimeString());
- if(l.startsWith('add task ')){d.tasks.push({text:x.slice(9),done:false});save();return reply('Task added.')}
- if(l.startsWith('remember ')){d.notes.unshift(x.slice(9));save();return reply('I remembered that.')}
- if(l.includes('list tasks')) return reply(d.tasks.length?d.tasks.map((t,i)=>`${i+1}. ${t.text}${t.done?' done':''}`).join('; '):'No tasks.');
- $('cmd').value=x; askAI();
-}
 
 function askAI(){
  let q=$('cmd').value.trim();
- if(!q) q=prompt('What do you want to ask AI?')||'';
+ if(!q)q=prompt('What do you want to ask AI?')||'';
  if(!q)return;
- const context=`You are JARVIS, my personal assistant. Be concise, practical, and helpful.
+ const context=`You are JARVIS, my personal assistant. Be concise, practical, calm, and helpful.
 
-My saved notes: ${JSON.stringify(d.notes)}
-My tasks: ${JSON.stringify(d.tasks)}
+Saved memories: ${JSON.stringify(d.notes)}
+Tasks: ${JSON.stringify(d.tasks)}
 
-My question: ${q}`;
+Question: ${q}`;
  try{navigator.clipboard.writeText(context)}catch(e){}
- reply('Opening ChatGPT now. Paste your question if it is not already there.');
- // Direct navigation works more reliably in iPhone Home Screen PWAs than window.open.
- window.location.href='https://chatgpt.com/';
+ reply('Opening ChatGPT. Paste your command if needed.');
+ setTimeout(()=>{window.location.href='https://chatgpt.com/';},250);
 }
-
 function webSearch(){
- let q=prompt('Search for:');
- if(q) window.location.href='https://www.google.com/search?q='+encodeURIComponent(q);
-}
-function listen(){
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){reply('Voice recognition is unavailable in this browser.');return}
- const r=new SR();r.lang='en-US';r.interimResults=false;$('status').textContent='Listening...';
- r.onresult=e=>{$('cmd').value=e.results[0][0].transcript;send()};
- r.onerror=()=>reply('I could not hear that.');
- r.start();
+ let q=prompt('Search the web for:');
+ if(q)window.location.href='https://www.google.com/search?q='+encodeURIComponent(q);
 }
 $('cmd').onkeydown=e=>{if(e.key==='Enter')send()};
-msg('JARVIS','JARVIS 4.2 online. Voice system ready.','j');render();
-if('serviceWorker'in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+msg('JARVIS','JARVIS 4.3 online. Movie HUD interface initialized.','j');
+render();
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
-</body></html>
+</body>
+</html>
