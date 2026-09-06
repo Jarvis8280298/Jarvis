@@ -1,11 +1,10 @@
 {
-  "name": "JARVIS 4.3",
+  "name": "JARVIS 4.4",
   "short_name": "JARVIS",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#02070b",
   "theme_color": "#02070b",
-  "description": "JARVIS 4.3 movie-inspired HUD",
   "icons": [
     {
       "src": "icon.svg",
